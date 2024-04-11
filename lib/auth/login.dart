@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
 
               // welcome back, you've been missed!
               Text(
-                'Welcome to the PicBucket! test',
+                'Welcome to the PicBucket!',
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16,
