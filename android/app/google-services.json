@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253186659513",
+    "project_id": "picbucket-2dda4",
+    "storage_bucket": "picbucket-2dda4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253186659513:android:5494e064b7e7e2559d7768",
+        "android_client_info": {
+          "package_name": "com.bucketcpp.bucket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf0pFIIJ-IjgfpemqrNZMlFG-vbw7cawE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
