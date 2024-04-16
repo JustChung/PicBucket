@@ -95,100 +95,105 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context) => AccountPage(
         )));
   }
-
+  //SingleChildScrollView
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // logo
-              Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Image.asset(
-                  'assets/bucket.png',
-                  height: 200,
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // logo
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Image.asset(
+                    'assets/bucket.png',
+                    height: 200,
+                  ),
                 ),
-              ),
 
-              // welcome back, you've been missed!
-              Text(
-                'Welcome to the PicBucket!',
-                style: TextStyle(
-                  color: Colors.grey[700],
-                  fontSize: 16,
+                // welcome back, you've been missed!
+                Text(
+                  'Welcome to the PicBucket!',
+                  style: TextStyle(
+                    color: Colors.grey[700],
+                    fontSize: 16,
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 25),
+                const SizedBox(height: 25),
 
-              // email textfield
-              MyTextField(
-                controller: emailController,
-                hintText: 'Email',
-                obscureText: false,
-              ),
+                // email textfield
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false,
+                ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              // password textfield
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
+                // password textfield
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              // forgot password?
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                // forgot password?
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
+                ),
+
+
+                // sign in button
+                Padding(
+                    padding: EdgeInsets.all(20),
+                    child: MyButton(
+                      onTap: signUserIn,
+                      text: "Sign In",
+                    )
+                ),
+
+                // not a member? register now
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
+                      'Not a member?',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(width: 4),
+                    InkWell(
+                      child: Text(
+                        'Register now',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: openAccountCreation,
                     ),
                   ],
-                ),
-              ),
-
-
-              // sign in button
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: MyButton(
-                  onTap: signUserIn,
-                  text: "Sign In",
                 )
-              ),
-
-              // not a member? register now
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Not a member?',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  const SizedBox(width: 4),
-                  InkWell(
-                    child: Text(
-                      'Register now',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: openAccountCreation,
-                  ),
-                ],
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),

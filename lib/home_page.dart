@@ -12,18 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // For checkbox
-  bool isChecked = false;
-
-  int _counter = 0;
-
   final user = FirebaseAuth.instance.currentUser!;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
@@ -35,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(
             size: 30
