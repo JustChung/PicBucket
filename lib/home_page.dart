@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -16,10 +17,19 @@ class _HomePageState extends State<HomePage> {
 
   int _counter = 0;
 
+  final user = FirebaseAuth.instance.currentUser!;
+
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+  }
+
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
+    ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('You have been signed out'))
+    );
   }
 
   @override
@@ -34,12 +44,9 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(right:10.0),
               child:
               IconButton(
-                icon: const Icon(Icons.notifications_none_rounded),
-                tooltip: 'Show Snackbar',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('This is a snackbar')));
-              },
+                icon: const Icon(Icons.logout),
+                tooltip: 'Sign out',
+                onPressed: signUserOut
             )
           ),
         ],

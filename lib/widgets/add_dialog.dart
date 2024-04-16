@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddTaskAlertDialog extends StatefulWidget {
   const AddTaskAlertDialog({
@@ -15,6 +16,7 @@ class AddTaskAlertDialog extends StatefulWidget {
 class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController taskDescController = TextEditingController();
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +98,15 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
   }
 
   Future _addTasks({required String taskName, required String taskDesc}) async {
-    DocumentReference docRef = await FirebaseFirestore.instance.collection('bucketlist').add(
+    DocumentReference docRef = await FirebaseFirestore.instance.collection(user.uid).add(
       {
+        'type': 'task',
         'taskTitle': taskName,
         'taskDesc': taskDesc,
       },
     );
     String taskId = docRef.id;
-    await FirebaseFirestore.instance.collection('bucketlist').doc(taskId).update(
+    await FirebaseFirestore.instance.collection(user.uid).doc(taskId).update(
       {'id': taskId},
     );
     _clearAll();

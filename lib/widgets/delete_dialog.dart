@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class DeleteTaskDialog extends StatefulWidget {
@@ -13,6 +14,8 @@ class DeleteTaskDialog extends StatefulWidget {
 }
 
 class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -66,7 +69,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
   }
 
   Future _deleteTasks() async {
-    var collection = FirebaseFirestore.instance.collection('bucketlist');
+    var collection = FirebaseFirestore.instance.collection(user.uid);
     collection
         .doc(widget.taskId)
         .delete()

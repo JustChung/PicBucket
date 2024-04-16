@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import './widgets/delete_dialog.dart';
 import 'package:camera/camera.dart';
 import 'camera_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Tasks extends StatefulWidget {
   const Tasks({Key? key}) : super(key: key);
@@ -13,13 +14,14 @@ class Tasks extends StatefulWidget {
 
 class _TasksState extends State<Tasks> {
   final fireStore = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: StreamBuilder<QuerySnapshot>(
-        stream: fireStore.collection('bucketlist').snapshots(),
+        stream: fireStore.collection(user.uid).where('type', isEqualTo: "task" ).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Text('No tasks to display');
