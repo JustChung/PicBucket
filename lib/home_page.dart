@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import './widgets/add_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded (
-              flex: 25,
+              flex: 23,
               child:
                 Container(
                   margin: const EdgeInsets.all(20.0),
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "25",
+                                    "...",
                                     style: TextStyle(
                                       fontSize: 25,
                                       color: Colors.white,
@@ -111,11 +112,18 @@ class _HomePageState extends State<HomePage> {
                               )
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(20.0),
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: ElevatedButton(
-                                  onPressed: () => print('tapped!'),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const AddTaskAlertDialog();
+                                      },
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                   ),
@@ -136,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                 ),
             ),
             Expanded(
-                flex: 68,
+                flex: 70,
                 child: Tasks()
             )
           ],
