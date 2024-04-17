@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './widgets/add_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -14,12 +15,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+  final fireStore = FirebaseFirestore.instance;
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
     ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('You have been signed out'))
     );
+  }
+
+  Future getCompletedCount() async {
+    int count = await fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots().length;
+    return count;
   }
 
   @override
@@ -101,13 +108,25 @@ class _HomePageState extends State<HomePage> {
                                 padding: const EdgeInsets.only(left: 40.0),
                                 child: Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "...",
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.white,
-                                    )
-                                  ),
+                                  child: StreamBuilder<QuerySnapshot>(
+                                    stream: fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots(), // async work
+                                    builder: (context, snapshot) {
+                                      switch (snapshot.connectionState) {
+                                        case ConnectionState.waiting: return Text('Loading....');
+                                        default:
+                                          if (snapshot.hasError)
+                                            return Text('...');
+                                          else
+                                            return  Text(
+                                              "${snapshot.data!.docs.length}",
+                                              style: TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.white,
+                                              )
+                                            );
+                                      }
+                                    },
+                                  )
                                 )
                               )
                             ),

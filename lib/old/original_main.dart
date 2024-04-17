@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'feed_page.dart';
-import 'memories_page.dart';
+// import 'home_page.dart';
+// import 'feed_page.dart';
+// import 'memories_page.dart';
 import 'account_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   runApp(const MyApp());
 }
 
@@ -71,9 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(title: 'Home'), // HomePage
-    FeedPage(title: 'Feed'), // FeedPage
-    MemoriesPage(title: 'Memories'), // MemoriesPage
+    // HomePage(title: 'Home'), // HomePage
+    // FeedPage(title: 'Feed'), // FeedPage
+    // MemoriesPage(title: 'Memories'), // MemoriesPage
     AccountPage(title: 'Account'), // AccountPage
   ];
   int _selectedIndex = 0;
