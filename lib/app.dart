@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'memories_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import './widgets/add_dialog.dart';
-import 'package:camera/camera.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bucket/auth/login.dart';
-import 'package:bucket/auth/auth_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -29,8 +23,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   // Bottom Navbar
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(title: 'Home'),
     MemoriesPage(title: 'Memories'),
@@ -59,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         onPressed: () {
           showDialog(
             context: context,

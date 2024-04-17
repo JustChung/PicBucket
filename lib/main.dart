@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'memories_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import './widgets/add_dialog.dart';
-import 'package:camera/camera.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bucket/auth/login.dart';
 import 'package:bucket/auth/auth_page.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/services.dart';
 
 Future main() async {

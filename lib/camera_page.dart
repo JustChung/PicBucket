@@ -40,6 +40,7 @@ class _PreviewPageState extends State<PreviewPage> {
     uploadTask.then((res) async {
       String url = await res.ref.getDownloadURL();
       updateTask(url);
+      Navigator.popUntil(context, (route) => route.isFirst);
     }).catchError((onError) {
       print(onError);
     });

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // import 'feed_page.dart';
 // import 'memories_page.dart';
 import 'account_page.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
 
 
@@ -67,9 +67,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // Bottom Navbar
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     // HomePage(title: 'Home'), // HomePage
     // FeedPage(title: 'Feed'), // FeedPage
