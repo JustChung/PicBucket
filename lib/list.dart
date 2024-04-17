@@ -73,7 +73,7 @@ class _TasksState extends State<Tasks> {
                             ),
                             onTap: () async {
                                 await availableCameras().then((value) => Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
+                                    MaterialPageRoute(builder: (_) => CameraPage(cameras: value, taskId: data['id'],))));
                               },
                           ),
                           PopupMenuItem(

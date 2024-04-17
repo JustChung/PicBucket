@@ -2,31 +2,99 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PreviewPage extends StatelessWidget {
-  const PreviewPage({Key? key, required this.picture}) : super(key: key);
+class PreviewPage extends StatefulWidget {
+  const PreviewPage({
+    Key? key,
+    required this.picture,
+    required this.taskId,
+  }) : super(key: key);
 
   final XFile picture;
+  final String taskId;
+
+  @override
+  State<PreviewPage> createState() => _PreviewPageState();
+}
+
+class _PreviewPageState extends State<PreviewPage> {
+  // final storage = FirebaseStorage.instance;
+  final _user = FirebaseAuth.instance.currentUser!;
+
+  Future uploadPicture() async {
+    final file = File(widget.picture.path);
+
+    // Create the file metadata
+    final metadata = SettableMetadata(contentType: "image/jpeg");
+
+    // Create a reference to the Firebase Storage bucket
+    final storageRef = FirebaseStorage.instance.ref();
+
+    // Upload file and metadata to the path 'images/mountains.jpg'
+    final uploadTask = storageRef
+        .child("${_user.uid}/${widget.picture.name}")
+        .putFile(file, metadata);
+    uploadTask.then((res) async {
+      String url = await res.ref.getDownloadURL();
+      updateTask(url);
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
+  Future updateTask(url) async {
+    await FirebaseFirestore.instance.collection(_user.uid).doc(widget.taskId).update(
+      {'type': 'image',
+        'url': url,
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Preview')),
       body: Center(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-          const SizedBox(height: 24),
-          // Text(picture.name)
-        ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.file(
+                File(widget.picture.path),
+                fit: BoxFit.cover,
+                width: 250,
+                alignment: Alignment.center,
+              ),
+            ),
+            const SizedBox(height: 24),
+            OutlinedButton(
+              child: Text("Save"),
+              style: OutlinedButton.styleFrom(
+                primary: Colors.green,
+                side: BorderSide(
+                  color: Colors.green,
+                ),
+              ),
+              onPressed: uploadPicture,
+            ),
+            // Text(picture.name)
+          ]
+        ),
       ),
     );
   }
 }
 
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key, required this.cameras}) : super(key: key);
+  const CameraPage({Key? key, required this.cameras, required this.taskId}) : super(key: key);
 
   final List<CameraDescription>? cameras;
+  final String taskId;
 
   @override
   State<CameraPage> createState() => _CameraPageState();
@@ -63,6 +131,7 @@ class _CameraPageState extends State<CameraPage> {
           MaterialPageRoute(
               builder: (context) => PreviewPage(
                 picture: picture,
+                taskId: widget.taskId,
               )));
     } on CameraException catch (e) {
       debugPrint('Error occurred while taking picture: $e');
