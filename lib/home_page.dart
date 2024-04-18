@@ -24,6 +24,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void deleteAccount() {
+
+  }
+
   Future getCompletedCount() async {
     int count = await fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots().length;
     return count;
@@ -40,12 +44,28 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           Padding(
               padding: const EdgeInsets.only(right:10.0),
-              child:
-              IconButton(
-                icon: const Icon(Icons.logout),
-                tooltip: 'Sign out',
-                onPressed: signUserOut
-            )
+              child: PopupMenuButton(
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'delete-account',
+                      child: const Text(
+                        'Delete account',
+                        style: TextStyle(fontSize: 13.0),
+                      ),
+                      onTap: deleteAccount
+                    ),
+                    PopupMenuItem(
+                      value: 'log-out',
+                      child: const Text(
+                        'Log out',
+                        style: TextStyle(fontSize: 13.0),
+                      ),
+                      onTap: signUserOut,
+                    ),
+                  ];
+                },
+              ),
           ),
         ],
       ),
