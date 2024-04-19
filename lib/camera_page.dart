@@ -76,7 +76,6 @@ class _PreviewPageState extends State<PreviewPage> {
             OutlinedButton(
               child: Text("Save"),
               style: OutlinedButton.styleFrom(
-                primary: Colors.green,
                 side: BorderSide(
                   color: Colors.green,
                 ),

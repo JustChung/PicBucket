@@ -58,6 +58,11 @@ class _HomePageState extends State<HomePage> {
     return count;
   }
 
+  String getDeviceType() {
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    return data.size.shortestSide < 600 ? 'phone' :'tablet';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                 ),
             ),
             Expanded(
-                flex: 70,
+                flex: 64,
                 child: Tasks()
             )
           ],
