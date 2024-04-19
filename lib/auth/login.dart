@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
