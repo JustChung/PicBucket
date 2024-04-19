@@ -61,7 +61,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(
         title: const Text('Create Account'),
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
