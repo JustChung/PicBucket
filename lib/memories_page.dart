@@ -45,8 +45,8 @@ class _MemoriesPageState extends State<MemoriesPage> {
         child: StreamBuilder<QuerySnapshot>(
           stream: fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Text('No tasks to display');
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Text('No memories to display.');
             } else {
               return GridView.count(
                 primary: false,
@@ -71,12 +71,12 @@ class _MemoriesPageState extends State<MemoriesPage> {
                       ],
                     ),
                     child: GridTile(
-                      header: Text(data['taskTitle']),
+                      // header: Text(data['taskTitle']),
                       child: Image.network(
                         data['url'],
                         fit: BoxFit.cover,
                       ),
-                      footer: Text(data['taskDesc']),
+                      // footer: Text(data['taskDesc']),
                       // trailing: PopupMenuButton(
                       //   itemBuilder: (context) {
                       //     return [

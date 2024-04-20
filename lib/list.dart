@@ -23,8 +23,8 @@ class _TasksState extends State<Tasks> {
       child: StreamBuilder<QuerySnapshot>(
         stream: fireStore.collection(user.uid).where('type', isEqualTo: "task" ).snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Text('No tasks to display');
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Text('No bucket list to display.');
           } else {
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
