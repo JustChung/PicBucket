@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:bucket/preview_memory.dart';
 
 class MemoriesPage extends StatefulWidget {
   const MemoriesPage({super.key, required this.title});
@@ -16,6 +17,19 @@ class _MemoriesPageState extends State<MemoriesPage> {
 
   final fireStore = FirebaseFirestore.instance;
   final user = FirebaseAuth.instance.currentUser!;
+
+  void openMemory(String url, String title, String description) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PreviewMemory(
+              url: url,
+              title: title,
+              description: description,
+            )
+        )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +86,17 @@ class _MemoriesPageState extends State<MemoriesPage> {
                     ),
                     child: GridTile(
                       // header: Text(data['taskTitle']),
-                      child: Image.network(
-                        data['url'],
-                        fit: BoxFit.cover,
-                      ),
+                      child: Material(
+                        // needed
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => openMemory(data['url'], data['taskTitle'], data['taskDesc']),
+                          child: Image.network(
+                            data['url'],
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      )
                       // footer: Text(data['taskDesc']),
                       // trailing: PopupMenuButton(
                       //   itemBuilder: (context) {
