@@ -158,10 +158,14 @@ class _CameraPageState extends State<CameraPage> {
         body: SafeArea(
           child: Stack(children: [
             (_cameraController.value.isInitialized)
-                ? CameraPreview(_cameraController)
+                ? Align(
+                  alignment: Alignment.topCenter,
+                  child: CameraPreview(_cameraController),
+                )
                 : Container(
-                color: Colors.black,
-                child: const Center(child: CircularProgressIndicator())),
+                    color: Colors.black,
+                    child: const Center(child: CircularProgressIndicator())
+                ),
             Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
