@@ -28,38 +28,45 @@ class _PreviewMemoryState extends State<PreviewMemory> {
     return Scaffold(
       appBar: AppBar(title: const Text('Memory')),
       body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                ),
-              ),
-              const SizedBox(height: 24),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  widget.url,
-                  width: 250,
-                  alignment: Alignment.center,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                widget.description,
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-              // Text(picture.name)
-            ]
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                      widget.url,
+                      width: 250,
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    widget.description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  // Text(picture.name)
+                ]
+            ),
+          )
         ),
-      ),
+      )
     );
   }
 }
