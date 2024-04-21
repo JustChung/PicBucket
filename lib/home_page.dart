@@ -103,117 +103,110 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-              flex: 5,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Bucket list",
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold
-                    ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Bucket list",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold
                   ),
                 ),
               ),
             ),
-            Expanded (
-              flex: 23,
-              child:
-                Container(
-                  margin: const EdgeInsets.all(20.0),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color(0xff31a078),
-                          Color(0xff31a05f),
-                        ],
-                      ),
-                    borderRadius: BorderRadius.circular(20),
+            Container(
+              margin: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Color(0xff31a078),
+                      Color(0xff31a05f),
+                    ],
                   ),
-                  child:
-                    Column(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child:
+                Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding (
+                        padding: const EdgeInsets.only(top: 20.0, left: 25.0),
+                        child: Text(
+                            "Your total bullets completed",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            )
+                        ),
+                      )
+                    ),
+                    Row(
                       children: [
-                        Align(
-                          alignment: Alignment.topLeft,
+                        Expanded(
                           child: Padding (
-                            padding: const EdgeInsets.only(top: 20.0, left: 25.0),
-                            child: Text(
-                                "Your total bullets completed",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                )
-                            ),
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: StreamBuilder<QuerySnapshot>(
+                                stream: fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots(), // async work
+                                builder: (context, snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting: return Text('Loading....');
+                                    default:
+                                      if (snapshot.hasError)
+                                        return Text('...');
+                                      else
+                                        return  Text(
+                                          "${snapshot.data!.docs.length}",
+                                          style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.white,
+                                          )
+                                        );
+                                  }
+                                },
+                              )
+                            )
                           )
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Padding (
-                                padding: const EdgeInsets.only(left: 40.0),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: StreamBuilder<QuerySnapshot>(
-                                    stream: fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots(), // async work
-                                    builder: (context, snapshot) {
-                                      switch (snapshot.connectionState) {
-                                        case ConnectionState.waiting: return Text('Loading....');
-                                        default:
-                                          if (snapshot.hasError)
-                                            return Text('...');
-                                          else
-                                            return  Text(
-                                              "${snapshot.data!.docs.length}",
-                                              style: TextStyle(
-                                              fontSize: 25,
-                                              color: Colors.white,
-                                              )
-                                            );
-                                      }
-                                    },
-                                  )
-                                )
-                              )
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const AddTaskAlertDialog();
-                                      },
-                                    );
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const AddTaskAlertDialog();
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                  ),
-                                  child: const Text(
-                                    "Add more",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.green,
-                                    )
-                                  ),
-                                ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
                               ),
-                            )
-                          ],
+                              child: const Text(
+                                "Add more",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.green,
+                                )
+                              ),
+                            ),
+                          ),
                         )
                       ],
-                    ),
+                    )
+                  ],
                 ),
             ),
             Expanded(
-                flex: 64,
+                flex: 1,
                 child: Tasks()
             )
           ],
