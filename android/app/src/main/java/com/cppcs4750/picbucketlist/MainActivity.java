@@ -1,4 +1,4 @@
-package com.bucketcpp.bucket;
+package com.cppcs4750.picbucketlist;
 
 import io.flutter.embedding.android.FlutterActivity;
 

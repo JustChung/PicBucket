@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:253186659513:android:5494e064b7e7e2559d7768",
+        "mobilesdk_app_id": "1:253186659513:android:3bd2d8f26e1525819d7768",
         "android_client_info": {
-          "package_name": "com.bucketcpp.bucket"
+          "package_name": "com.cppcs4750.picbucketlist"
         }
       },
       "oauth_client": [],
