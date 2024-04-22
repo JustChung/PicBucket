@@ -3,7 +3,8 @@ import './list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './widgets/add_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+import './widgets/delete_data_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -25,42 +26,44 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void deleteAccount() async {
-    try {
-      await FirebaseStorage.instance.ref(user.uid).listAll().then((value) {
-        value.items.forEach((element) {
-          FirebaseStorage.instance.ref(element.fullPath).delete();
-        });
-      });
-      displayMessage("Images deleted.");
-      var snapshots = await fireStore.collection(user.uid).get();
-      for (var doc in snapshots.docs) {
-        await doc.reference.delete();
-      }
-      displayMessage("Bucket list deleted.");
-      await user.delete();
-      displayMessage("Account deleted.");
-    } on FirebaseException catch (e) {
-      displayMessage("Error occurred: ${e.code}");
-    } on Exception catch (e) {
-      displayMessage("Error occurred: UNKNOWN");
-    }
-  }
-
-  void displayMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message))
+  void deleteAllDataDialog() async {
+    showDialog(
+      context: context,
+      builder: (context) => DeleteDataDialog(),
     );
   }
+
+  // void deleteAccount() async {
+  //   try {
+  //     await FirebaseStorage.instance.ref(user.uid).listAll().then((value) {
+  //       value.items.forEach((element) {
+  //         FirebaseStorage.instance.ref(element.fullPath).delete();
+  //       });
+  //     });
+  //     displayMessage("Images deleted.");
+  //     var snapshots = await fireStore.collection(user.uid).get();
+  //     for (var doc in snapshots.docs) {
+  //       await doc.reference.delete();
+  //     }
+  //     displayMessage("Bucket list deleted.");
+  //     await user.delete();
+  //     displayMessage("Account deleted.");
+  //   } on FirebaseException catch (e) {
+  //     displayMessage("Error occurred: ${e.code}");
+  //   } on Exception catch (e) {
+  //     displayMessage("Error occurred: UNKNOWN");
+  //   }
+  // }
+  //
+  // void displayMessage(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(message))
+  //   );
+  // }
 
   Future getCompletedCount() async {
     int count = await fireStore.collection(user.uid).where('type', isEqualTo: "image" ).snapshots().length;
     return count;
-  }
-
-  String getDeviceType() {
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-    return data.size.shortestSide < 600 ? 'phone' :'tablet';
   }
 
   @override
@@ -80,10 +83,10 @@ class _HomePageState extends State<HomePage> {
                     PopupMenuItem(
                       value: 'delete-account',
                       child: const Text(
-                        'Delete account',
+                        'Delete all data',
                         style: TextStyle(fontSize: 13.0),
                       ),
-                      onTap: deleteAccount
+                      onTap: deleteAllDataDialog
                     ),
                     PopupMenuItem(
                       value: 'log-out',
